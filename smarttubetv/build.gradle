@@ -157,6 +157,14 @@ android {
     // more: https://proandroiddev.com/advanced-android-flavors-part-4-a-new-version-fc2ad80c01bb
     flavorDimensions "default"
 
+    // FIX: AGP 7.x "enumerated-runtime-classes" transform crashes on gomobile (libbox) AARs
+    // ("zip file is empty"). Duplicate class check is optional and doesn't affect packaging.
+    tasks.whenTaskAdded { task ->
+        if (task.name.startsWith("check") && task.name.endsWith("DuplicateClasses")) {
+            task.enabled = false
+        }
+    }
+
     // NOTE: The main goal of prefixing a flavor is to group flavors' folders together
     productFlavors {
         stbeta {
