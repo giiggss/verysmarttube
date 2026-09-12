@@ -2,11 +2,10 @@ package com.liskovsoft.smartyoutubetv2.common.proxy.vmess;
 
 import android.content.Context;
 
+import com.liskovsoft.smartyoutubetv2.common.proxy.PasswdInetSocketAddress;
+import com.liskovsoft.smartyoutubetv2.common.proxy.Proxy;
 import com.liskovsoft.smartyoutubetv2.common.proxy.ProxyManager;
 import com.liskovsoft.smartyoutubetv2.common.prefs.AppPrefs;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 /**
  * Orchestrates the built-in vmess proxy feature.
@@ -96,7 +95,8 @@ public class VmessProxyManager {
 
                 // Route the whole app through the local SOCKS proxy.
                 mProxyManager.saveProxyInfoToPrefs(
-                        new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(SingBoxVmessConfig.LOCAL_ADDRESS, socksPort)),
+                        new Proxy(Proxy.Type.SOCKS,
+                                PasswdInetSocketAddress.createUnresolved(SingBoxVmessConfig.LOCAL_ADDRESS, socksPort, "", "")),
                         true);
                 mProxyManager.configureSystemProxy();
 
